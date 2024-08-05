@@ -7,11 +7,12 @@ from openai import AsyncOpenAI
 from conva_ai import AsyncConvaAI
 import time
 import json
+from dotenv import load_dotenv
 
 nest_asyncio.apply()
-
+load_dotenv()
 API_KEY = os.environ.get("OPENAI_API_KEY")
-API_BASE_URL = os.environ.get("API_BASE_URL")  # Change this to your deployed API URL
+API_BASE_URL = os.getenv("API_BASE_URL") 
 
 client = AsyncOpenAI(api_key=API_KEY)
 
@@ -141,13 +142,13 @@ def main():
     with col1:
         st.subheader("Response A")
         st.text_area(
-            "Model A", st.session_state.llm1_response, height=300, key="model_a"
+            "Model A", st.session_state.llm1_response, height=300, key="model_a", disabled = True
         )
 
     with col2:
         st.subheader("Response B")
         st.text_area(
-            "Model B", st.session_state.llm2_response, height=300, key="model_b"
+            "Model B", st.session_state.llm2_response, height=300, key="model_b", disabled= True
         )
 
     if st.session_state.llm1_response and st.session_state.llm2_response:
@@ -168,7 +169,6 @@ def main():
                     },
                 )
             )
-            asyncio.run(fetch_api("/increment_total_games", method="POST"))
             st.rerun()
 
         if col5.button("Right (B) 👉"):
@@ -185,7 +185,6 @@ def main():
                     },
                 )
             )
-            asyncio.run(fetch_api("/increment_total_games", method="POST"))
             st.rerun()
 
         if col6.button("Both Good"):
@@ -202,7 +201,6 @@ def main():
                     },
                 )
             )
-            asyncio.run(fetch_api("/increment_total_games", method="POST"))
             st.rerun()
 
         if col7.button("Both Bad"):
@@ -219,12 +217,11 @@ def main():
                     },
                 )
             )
-            asyncio.run(fetch_api("/increment_total_games", method="POST"))
             st.rerun()
-    game_no = asyncio.run(fetch_api("/increment_total_games", method="POST"))
+    game_no = asyncio.run(fetch_api("/total_games", method="GET"))
     if st.session_state.show_results:
         response_data = {
-            "game_no": game_no["game_no"],
+            "game_no": game_no,
             "query": st.session_state.user_input,
             "use_case": selected_option,
             "model_a": st.session_state.model1_name,

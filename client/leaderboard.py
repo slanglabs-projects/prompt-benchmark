@@ -4,7 +4,10 @@ import aiohttp
 import asyncio
 import os
 
-API_BASE_URL = os.environ.get("API_BASE_URL")  # Change this to your deployed API URL
+from dotenv import load_dotenv
+load_dotenv()
+
+API_BASE_URL = os.getenv("API_BASE_URL")  # Change this to your deployed API URL
 
 
 async def fetch_api(endpoint, method="GET", data=None):
@@ -21,7 +24,7 @@ def main():
     st.title("ELO Scoring Leaderboard")
 
     use_cases = asyncio.run(fetch_api("/fetch_use_cases"))
-    selected_use_case = st.selectbox("Select Use Case", use_cases)
+    selected_use_case = st.selectbox("Select Use Case", use_cases, disabled=True)
 
     if selected_use_case:
         leaderboard_data = asyncio.run(fetch_api(f"/leaderboard/{selected_use_case}"))
