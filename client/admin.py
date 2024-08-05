@@ -5,7 +5,10 @@ import asyncio
 import time
 import os
 
-API_BASE_URL = os.environ.get("API_BASE_URL")  # Change this to your deployed API URL
+from dotenv import load_dotenv
+load_dotenv()
+
+API_BASE_URL = os.getenv("API_BASE_URL")
 
 
 async def fetch_api(endpoint, method="GET", data=None):
@@ -35,11 +38,11 @@ def main():
     with tabs[0]:
         with st.form("Add Prompt Form", clear_on_submit=True):
             models = asyncio.run(fetch_api("/fetch_models"))
-            selected_model = st.selectbox("Select Model", models, key="model_select")
+            selected_model = st.selectbox("Select Model", models, key="model_select", disabled=True)
 
             use_cases = asyncio.run(fetch_api("/fetch_use_cases"))
             selected_use_case = st.selectbox(
-                "Select Use Case", use_cases, key="use_case_select"
+                "Select Use Case", use_cases, key="use_case_select", disabled=True
             )
             use_case = selected_use_case
 
@@ -70,7 +73,7 @@ def main():
 
             use_cases = asyncio.run(fetch_api("/fetch_use_cases"))
             selected_use_case = st.selectbox(
-                "Select Use Case", use_cases, key="new_model_use_case_select"
+                "Select Use Case", use_cases, key="new_model_use_case_select",disabled=True
             )
 
             prompt_text = st.text_area("Prompt", key="new_model_prompt_text_area")
@@ -99,10 +102,10 @@ def main():
         models = asyncio.run(fetch_api("/fetch_models"))
         use_cases = asyncio.run(fetch_api("/fetch_use_cases"))
         selected_model = st.selectbox(
-            "Select Model to View Prompts", models, key="model_view"
+            "Select Model to View Prompts", models, key="model_view", disabled=True
         )
         selected_use_case = st.selectbox(
-            "Select Use Case", use_cases, key="use_case_view"
+            "Select Use Case", use_cases, key="use_case_view", disabled=True
         )
 
         if selected_model and selected_use_case:
@@ -152,7 +155,7 @@ def main():
             )
             use_cases = asyncio.run(fetch_api("/fetch_use_cases"))
             selected_use_case = st.selectbox(
-                "Select Use Case", use_cases, key="assistant_use_case"
+                "Select Use Case", use_cases, key="assistant_use_case", disabled= True
             )
 
             if st.form_submit_button("Add Assistant"):

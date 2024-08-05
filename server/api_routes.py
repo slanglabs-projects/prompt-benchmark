@@ -5,6 +5,9 @@ from server.db import FirebaseClient
 from fastapi.responses import JSONResponse
 from fastapi import Request
 import json
+import cProfile
+import pstats
+
 
 router = APIRouter()
 
