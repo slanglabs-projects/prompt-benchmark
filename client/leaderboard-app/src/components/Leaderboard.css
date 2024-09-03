@@ -1,0 +1,15 @@
+/* Leaderboard.css */
+.table-bordered {
+    border: 1px solid #343a40; /* Darker border color for the table */
+  }
+  
+  .table-bordered th,
+  .table-bordered td {
+    border: 1px solid #343a40; /* Vertical lines for table cells */
+  }
+  
+  .rounded-table {
+    border-radius: 8px; /* Rounded corners for the table */
+    overflow: hidden; /* Ensures the rounded corners apply properly */
+  }
+  
