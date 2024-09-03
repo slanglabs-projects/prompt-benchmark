@@ -1,28 +1,53 @@
-# Prompt Benchmark 
+# Project Setup Instructions
 
-A benchmarking platform for LLMs!
+Follow these steps to set up and run the project:
 
-This benchmarking platform indirectly calculates the META PROMPT GENERATION QUALITY of a model. Currently hosted at [Prompt Benchmark Console](https://prompt-benchmark-console-prod.redisland-25b20936.centralindia.azurecontainerapps.io/). Feel free to vote on the LLMs and help us make a better and a reliable leaderboard!
+1. Clone the repository:
 
-## Running Locally
-
-To run the application locally, follow these steps:
-
-1. Open a terminal and start the FastAPI services first by using:
-
-   ```bash
-   python start.py
    ```
-2. After the FastAPI services are up and running, start the Streamlit application in another terminal:
+   git clone git@github.com:slanglabs-projects/prompt-benchmark.git
+   ```
+2. Install Node.js (if not already installed):
 
-   ```bash
-   python run_streamlit.py
+   ```
+   brew install node
+   ```
+3. Verify Node.js and npm versions:
+
+   ```
+   node -v
+   npm -v
    ```
 
-## Contributing
+   You should see version 22.5.1 for Node.js and 10.8.2 for npm.
+4. Navigate to the project directory:
 
-We welcome contributions to improve the platform. Feel free to open issues or submit pull requests.
+   ```
+   cd prompt-benchmark
+   ```
+5. Install project dependencies(node modules) in both Root Directory and React Directory
 
----
+   ```
+   npm install
 
-Feel free to vote on the LLMs and help us make a better leaderboard!
+   cd client/leaderboard-app
+
+   npm install
+   ```
+6. Install Bootstrap:
+
+   ```
+   npm i bootstrap@5.3.3
+   ```
+7. Navigate to the React project folder:
+
+   ```
+   cd client/leaderboard-app
+   ```
+8. Start the project:
+
+   ```
+   npm start
+   ```
+
+The project should now be running. Open your browser and navigate to the local server address (typically `http://localhost:3000`) to view the application.
