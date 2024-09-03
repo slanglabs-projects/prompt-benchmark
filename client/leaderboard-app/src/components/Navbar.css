@@ -1,0 +1,23 @@
+/* Navbar.css */
+.navbar-nav .nav-item {
+    margin-left: 20px; /* Adjust spacing between nav items */
+  }
+  
+  .nav-link {
+    font-size: 1.2rem; /* Make the text larger */
+    padding: 10px 15px; /* Add padding to the links */
+    transition: all 0.3s ease; /* Smooth transition for hover effects */
+  }
+  
+  .nav-link:hover {
+    background-color: #eff3f5; /* Light background on hover */
+    border-radius: 5px; /* Rounded corners for the box effect */
+    color: #000000; /* Change text color on hover */
+  }
+  
+  .nav-link.active {
+    background-color: #cccccc; /* Background color for the active (selected) tab */
+    border-radius: 5px; /* Rounded corners for the box effect */
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2); /* Pressed box effect */
+  }
+  
