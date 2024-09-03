@@ -3,22 +3,14 @@ import aiohttp
 import asyncio
 import nest_asyncio
 import os
-from openai import AsyncOpenAI
-from conva_ai import AsyncConvaAI
-import time
 import json
 from dotenv import load_dotenv
 
 nest_asyncio.apply()
 load_dotenv()
-API_KEY = os.environ.get("OPENAI_API_KEY")
-API_BASE_URL = os.getenv("API_BASE_URL") 
+API_BASE_URL = os.getenv("API_BASE_URL")
 
-client = AsyncOpenAI(api_key=API_KEY)
-
-# API_BASE_URL = "http://localhost:8000"
-
-
+# Helper function to fetch data from the API
 async def fetch_api(endpoint, method="GET", data=None):
     async with aiohttp.ClientSession() as session:
         try:
@@ -42,28 +34,36 @@ async def fetch_api(endpoint, method="GET", data=None):
             st.error(f"Network error: {str(e)}")
             return []
 
+# Updated function to fetch OpenAI response via API
+async def fetch_openai_response(prompt, model="gpt-4o-mini-2024-07-18"):
+    response = await fetch_api(
+        "/openai_response",
+        method="POST",
+        data={
+            "api_key": os.getenv("OPENAI_API_KEY"),
+            "model": model,
+            "prompt": prompt
+        }
+    )
+    return response.get("response", "")
+
+# Updated function to fetch Conva AI response via API
+async def fetch_conva_ai_response(assistant_id, assistant_version, api_key, query):
+    response = await fetch_api(
+        "/conva_response",
+        method="POST",
+        data={
+            "assistant_id": assistant_id,
+            "assistant_version": assistant_version,
+            "api_key": api_key,
+            "prompt": query,
+            "use_case": selected_option
+        }
+    )
+    return response.get("response", "")
 
 def main():
     st.title("ELO Scoring Platform for LLMs")
-
-    async def fetch_openai_response(prompt, model="gpt-4o-mini-2024-07-18"):
-        response = await client.chat.completions.create(
-            model=model, messages=[{"role": "user", "content": prompt}], max_tokens=512
-        )
-        return response.choices[0].message.content
-
-    async def fetch_conva_ai_response(assistant_id, assistant_version, api_key, query):
-        conva_client = AsyncConvaAI(
-            assistant_id=assistant_id,
-            assistant_version=assistant_version,
-            api_key=api_key,
-        )
-        response = await conva_client.invoke_capability_name(
-            query, stream=False, capability_name=selected_option
-        )
-        response = response.model_dump()["parameters"]
-        response = json.dumps(response, indent=4)
-        return response
 
     async def handle_response(prompt, model_name, assistant_data=None):
         if model_name == "Conva Assistant":
@@ -132,32 +132,34 @@ def main():
         st.session_state.show_results = False
     if "winner" not in st.session_state:
         st.session_state.winner = ""
+    if "voting" not in st.session_state:
+        st.session_state.voting = True
 
-    if not st.session_state.show_results:
-        user_input = st.text_input("Enter your input here:", "")
-        if st.button("Submit"):
-            st.session_state.user_input = user_input
-            asyncio.run(fetch_responses(user_input))
+    user_input = st.text_input("Enter your input here:")
+
+    if user_input and user_input != st.session_state.user_input:
+        st.session_state.user_input = user_input
+        asyncio.run(fetch_responses(user_input))
 
     with col1:
         st.subheader("Response A")
         st.text_area(
-            "Model A", st.session_state.llm1_response, height=300, key="model_a", disabled = True
+            "Model A", st.session_state.llm1_response, height=300, key="model_a", disabled=True
         )
 
     with col2:
         st.subheader("Response B")
         st.text_area(
-            "Model B", st.session_state.llm2_response, height=300, key="model_b", disabled= True
+            "Model B", st.session_state.llm2_response, height=300, key="model_b", disabled=True
         )
 
-    if st.session_state.llm1_response and st.session_state.llm2_response:
+    if st.session_state.llm1_response and st.session_state.llm2_response and st.session_state.voting:
         st.subheader("Rate the responses")
         col4, col5, col6, col7 = st.columns(4)
 
-        if col4.button("👈 Left (A)"):
-            st.session_state.show_results = True
-            st.session_state.winner = st.session_state.model1_name
+        def vote(model_name, result):
+            st.session_state.voting = False
+            st.session_state.winner = model_name
             asyncio.run(
                 fetch_api(
                     "/update_elo",
@@ -165,59 +167,25 @@ def main():
                     data={
                         "model_a": st.session_state.model1_name,
                         "model_b": st.session_state.model2_name,
-                        "result": "win",
+                        "result": result,
                     },
                 )
             )
+            st.session_state.show_results = True
             st.rerun()
+
+        if col4.button("👈 Left (A)"):
+            vote(st.session_state.model1_name, "win")
 
         if col5.button("Right (B) 👉"):
-            st.session_state.show_results = True
-            st.session_state.winner = st.session_state.model2_name
-            asyncio.run(
-                fetch_api(
-                    "/update_elo",
-                    method="POST",
-                    data={
-                        "model_a": st.session_state.model1_name,
-                        "model_b": st.session_state.model2_name,
-                        "result": "loss",
-                    },
-                )
-            )
-            st.rerun()
+            vote(st.session_state.model2_name, "loss")
 
         if col6.button("Both Good"):
-            st.session_state.show_results = True
-            st.session_state.winner = "both_good"
-            asyncio.run(
-                fetch_api(
-                    "/update_elo",
-                    method="POST",
-                    data={
-                        "model_a": st.session_state.model1_name,
-                        "model_b": st.session_state.model2_name,
-                        "result": "both_good",
-                    },
-                )
-            )
-            st.rerun()
+            vote("both_good", "both_good")
 
         if col7.button("Both Bad"):
-            st.session_state.show_results = True
-            st.session_state.winner = "both_bad"
-            asyncio.run(
-                fetch_api(
-                    "/update_elo",
-                    method="POST",
-                    data={
-                        "model_a": st.session_state.model1_name,
-                        "model_b": st.session_state.model2_name,
-                        "result": "both_bad",
-                    },
-                )
-            )
-            st.rerun()
+            vote("both_bad", "both_bad")
+
     game_no = asyncio.run(fetch_api("/total_games", method="GET"))
     if st.session_state.show_results:
         response_data = {
@@ -239,7 +207,6 @@ def main():
         with col2:
             st.write(f"Model B: {st.session_state.model2_name}")
 
-    if st.button("reset"):
         for key in [
             "llm1_response",
             "llm2_response",
@@ -250,10 +217,11 @@ def main():
             "user_input",
             "show_results",
             "winner",
+            "voting"
         ]:
             st.session_state[key] = ""
+            st.session_state.voting = True
         st.rerun()
-
 
 if __name__ == "__main__":
     main()

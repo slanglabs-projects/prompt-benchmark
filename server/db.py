@@ -216,4 +216,3 @@ class FirebaseClient:
         for prompt in prompts:
             use_cases.add(prompt.to_dict().get('name', ''))
         return list(use_cases)
-
