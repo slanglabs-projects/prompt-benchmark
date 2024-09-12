@@ -2,9 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Navbar.css';
+import logo from '../assets/logo.png'; 
 
 const Navbar = () => {
-  const [showAdmin, setShowAdmin] = useState(false); // State to store the value of showAdmin
+  const [showAdmin, setShowAdmin] = useState(false); 
   const location = useLocation();
 
   useEffect(() => {
@@ -15,7 +16,10 @@ const Navbar = () => {
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
       <div className="container-fluid">
-        <Link className="navbar-brand" to="/">ELO Scoring Platform</Link>
+      <Link className="navbar-brand" to="/" style={{ display: 'flex', alignItems: 'center', width: '100%' }}>
+        <img src={logo} alt="Logo" style={{ height: '30px', width: 'auto', marginRight: '10px' }} />
+        <span style={{ fontSize: '25px', fontWeight: 'bold', flex: 1, textAlign: 'center' }}>Agent Arena</span>
+      </Link>
         <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span className="navbar-toggler-icon"></span>
         </button>

@@ -1,5 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import mixpanel from "mixpanel-browser";
+import { CopyToClipboard } from 'react-copy-to-clipboard';
+import { FaCopy, FaCheck } from 'react-icons/fa';
+import Footer from './Footer';
+
+mixpanel.init(process.env.REACT_APP_MIXPANEL_TOKEN, {
+  debug: true,
+  track_pageview: true,
+  persistence: "localStorage",
+});
 
 const EloScoringPlatform = () => {
   const [options, setOptions] = useState([]);
@@ -13,14 +23,58 @@ const EloScoringPlatform = () => {
   const [winner, setWinner] = useState('');
   const [gameNumber, setGameNumber] = useState(0);
   const [submitClicked, setSubmitClicked] = useState(false); 
+  const [loading, setLoading] = useState(false);
+  const [isInputDisabled, setIsInputDisabled] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+  const [copiedA, setCopiedA] = useState(false);
+  const [copiedB, setCopiedB] = useState(false);
   const API_BASE_URL =  process.env.REACT_APP_API_BASE_URL;
+
+  const displayNameMapping = {
+    'product_search': 'Product Search',
+    'travel_search': 'Travel Search',
+  };
+
+  const handleSubmit = () => {
+    setErrorMessage('');
+
+    if (!selectedOption) {
+      setErrorMessage('Please select a category.');
+      return;
+    }
+    
+    if (!userInput) {
+      setErrorMessage('Please enter a query.');
+      return;
+    }
+    mixpanel.track('Submit Button Clicked', { userInput });
+    fetchPrompts();
+    setSubmitClicked(true);
+    setIsInputDisabled(true);
+  };
+
+  useEffect(() => {
+    let timer;
+    if (copiedA) {
+      timer = setTimeout(() => setCopiedA(false), 1000);
+    }
+    return () => clearTimeout(timer);
+  }, [copiedA]);
+
+  useEffect(() => {
+    let timer;
+    if (copiedB) {
+      timer = setTimeout(() => setCopiedB(false), 1000);
+    }
+    return () => clearTimeout(timer);
+  }, [copiedB]);
 
   useEffect(() => {
     const fetchUseCases = async () => {
       try {
         const response = await axios.get(`${API_BASE_URL}/fetch_use_cases`);
         setOptions(response.data);
-        if (response.data.length > 0) setSelectedOption(response.data[0]);
+        if (response.data.length > 0) setSelectedOption();
       } catch (error) {
         console.error('Error fetching use cases:', error);
       }
@@ -31,12 +85,19 @@ const EloScoringPlatform = () => {
 
   const fetchPrompts = async () => {
     try {
+      setLoading(true); 
       setSubmitClicked(true);
+      mixpanel.track('Prompt Submitted', {
+        selectedOption,
+        userInput,
+      });
       const response = await axios.get(`${API_BASE_URL}/random_prompts/${selectedOption}`);
       setPrompts(response.data);
       await fetchResponses(response.data, userInput);
     } catch (error) {
       console.error('Error fetching prompts:', error);
+    } finally {
+      setLoading(false); 
     }
   };
 
@@ -46,8 +107,8 @@ const EloScoringPlatform = () => {
       const response2 = await handleResponse(prompts[1], input);
       setResponses({ responseA: response1, responseB: response2 });
       setModels({ model1: prompts[0].origin, model2: prompts[1].origin });
-      setShowResults(true); // Show results after fetching responses
-      setVoted(false); // Reset voting status
+      setShowResults(true); 
+      setVoted(false); 
     } catch (error) {
       console.error('Error fetching responses:', error);
     }
@@ -90,18 +151,42 @@ const EloScoringPlatform = () => {
     }
   };
 
+  const handleOptionChange = (e) => {
+    const newOption = e.target.value;
+    setSelectedOption(newOption);
+    mixpanel.track('Dropdown Option Selected', {
+      selectedOption: newOption,
+    });
+  };
+
   const handleVote = async (modelName, result) => {
     try {
       setWinner(modelName);
-      setVoted(true); 
+      setVoted(true);
+      
+      mixpanel.track('Model Voted', {
+        gameNumber,
+        votedFor: modelName,
+        result,
+        model1: models.model1,
+        model2: models.model2,
+        responseA: responses.responseA,
+        responseB: responses.responseB,
+        userInput: userInput,
+        model1Votes: modelName === models.model1 && result === 'win' ? 1 : 0,
+        model2Votes: modelName === models.model2 && result === 'win' ? 1 : 0,
+        bothGoodVotes: result === 'both_good' ? 1 : 0,
+        bothBadVotes: result === 'both_bad' ? 1 : 0,
+      });
+  
       await axios.post(`${API_BASE_URL}/update_elo`, {
         model_a: models.model1,
         model_b: models.model2,
         result: result,
       });
-
+  
       await fetchGameNumber();
-
+  
       setTimeout(async () => {
         await handleAddResponse();
         resetSession();
@@ -110,7 +195,7 @@ const EloScoringPlatform = () => {
       console.error('Error updating ELO:', error);
     }
   };
-
+  
   const fetchGameNumber = async () => {
     try {
       const response = await axios.get(`${API_BASE_URL}/total_games`);
@@ -142,37 +227,122 @@ const EloScoringPlatform = () => {
     setResponses({ responseA: '', responseB: '' });
     setModels({ model1: '', model2: '' });
     setShowResults(false);
-    setVoted(false); // Reset voting status
+    setVoted(false);
     setWinner('');
-    setSubmitClicked(false); // Show submit button again
+    setSubmitClicked(false);
+    setSelectedOption('');
+    setIsInputDisabled(false); 
   };
+  
+  
 
   return (
-    <div className="container-fluid py-4" style={{ backgroundColor: '#2c2f33', color: '#ffffff', height: '100vh' }}>
-      <div className="text-center mb-4">
-        <h1 className="elo-title">ELO Scoring Platform for LLMs</h1>
+    <div className="container-fluid py-4" style={{ backgroundColor: '#2c2f33', color: '#ffffff', height: '150vh', width:"100%"}}>
+    <div className="text-center mb-4">
+      <div style={{ backgroundColor: '#6c757d', padding: '5px', borderRadius: '8px' }}>
+      <section id="about" style={{ textAlign: 'left', padding: '20px' }}>
+      <h2 style={{ textAlign: 'left', color:"#2c2f33" }}>About</h2>
+      <p>Inspired by LMSYS, this benchmarking tool enables you to compare the performance of prompts generated by a variety of frameworks. We support Claude, DSPy, Conva-AI, and human prompts, spanning two key categories: Product Search and Travel Search.
+      This tool is designed to help you make informed decisions by comparing advanced AI frameworks in a practical and user-friendly environment.
+      </p>
+        <h2 style={{ textAlign: 'left', color:"#2c2f33" }}>How to Use</h2>
+        <ol style={{ paddingLeft: '20px' }}>
+          <li>
+            <strong>Choose a Category:</strong> Select between Product Search or Travel Search.
+          </li>
+          <li>
+            <strong>Enter a Query:</strong> Type a query related to your chosen category.
+          </li>
+          <li>
+            <strong>Compare Responses:</strong> Two responses will be generated. Vote for the one 
+            you think is best.
+          </li>
+          <li>
+            <strong>See the Results:</strong> After voting, the names of the models will be revealed, 
+            and the leaderboard will update accordingly.
+          </li>
+        </ol>
+      </section>
       </div>
+      <br/>
+    </div>
 
-      <div className="row mb-4">
-        <div className="col text-center">
-          <select
-            className="form-select form-select-lg bg-dark text-white"
-            value={selectedOption}
-            onChange={(e) => setSelectedOption(e.target.value)}
-            style={{ maxWidth: '400px', margin: '0 auto' }}
-          >
-            {options.map((option) => (
-              <option key={option} value={option}>{option}</option>
-            ))}
-          </select>
+    <div className="row mb-4">
+      <div className="col text-center">
+        <div className="d-flex justify-content-center align-items-center">
+          <div className="me-2">
+            <select
+              autoFocus
+              required
+              className="form-select form-select-lg bg-light text-black"
+              value={selectedOption}
+              onChange={handleOptionChange}
+              style={{ maxWidth: '200px' }}
+            >
+              <option value="" disabled>Pick a category</option>
+              {options.map((option) => (
+                <option key={option} value={option}>
+                  {displayNameMapping[option] || option}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="me-2" style={{ maxWidth: '800px', flex: '1' }}>
+            <input
+              placeholder="Enter your query"
+              type="text"
+              className="form-control form-control-lg bg-light text-black"
+              value={userInput}
+              onChange={(e) => setUserInput(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  e.preventDefault();
+                  handleSubmit();
+                }
+              }}
+              disabled={isInputDisabled}
+              style={{ maxWidth: '800px' }}
+            />
+          </div>
+          <div>
+            {!submitClicked && (
+              <button
+                className="btn btn-primary btn-lg"
+                onClick={handleSubmit}
+              >
+                Submit
+              </button>
+            )}
+            {loading && (
+              <div className="text-center">
+                <div className="spinner-border text-light" role="status">
+                  <span className="visually-hidden">Loading...</span>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
+        {errorMessage && (
+          <div className="alert alert-danger mt-3">
+            {errorMessage}
+          </div>
+        )}
       </div>
+    </div>
 
       <div className="row">
         <div className="col-md-6 mb-3">
           <div className="card bg-dark text-white h-100">
             <div className="card-body">
-              <h5 className="card-title">Model A</h5>
+            <div className="d-flex justify-content-between align-items-center">
+              <h5 className="card-title mb-0">Framework A</h5>
+                <CopyToClipboard text={responses.responseA} onCopy={() => setCopiedA(true)}>
+                  <button className="btn btn-outline-light ms-2">
+                    {copiedA ? <FaCheck style={{ color: 'green' }} /> : <FaCopy />}
+                  </button>
+                </CopyToClipboard>
+            </div>
+            <br/>
               <textarea
                 className="form-control bg-secondary text-white"
                 value={responses.responseA}
@@ -180,42 +350,35 @@ const EloScoringPlatform = () => {
                 rows="15"
                 style={{ resize: 'none' }}
               />
-              {voted && <p className="mt-2">Model: {models.model1}</p>}
+              {voted && <p className="mt-2">Framework Used: {models.model1}</p>}
             </div>
           </div>
         </div>
         <div className="col-md-6 mb-3">
           <div className="card bg-dark text-white h-100">
             <div className="card-body">
-              <h5 className="card-title">Model B</h5>
-              <textarea
+            <div className="d-flex justify-content-between align-items-center">
+              <h5 className="card-title mb-0">Framework B</h5>
+              <CopyToClipboard text={responses.responseB} onCopy={() => setCopiedB(true)}>
+                  <button className="btn btn-outline-light ms-2">
+                    {copiedB ? <FaCheck style={{ color: 'green' }} /> : <FaCopy />}
+                  </button>
+                </CopyToClipboard>
+            </div>
+            <br/>              
+            <textarea
                 className="form-control bg-secondary text-white"
                 value={responses.responseB}
                 readOnly
                 rows="15"
                 style={{ resize: 'none' }}
               />
-              {voted && <p className="mt-2">Model: {models.model2}</p>}
+              {voted && <p className="mt-2">Framework Used: {models.model2}</p>}
             </div>
           </div>
         </div>
       </div>
 
-      <div className="row mb-4">
-        <div className="col text-center">
-          <input
-            type="text"
-            className="form-control form-control-lg bg-dark text-white"
-            placeholder="Enter your input here"
-            value={userInput}
-            onChange={(e) => setUserInput(e.target.value)}
-            style={{ maxWidth: '800px', margin: '0 auto' }}
-          />
-          {!submitClicked && (
-            <button className="btn btn-primary btn-lg mt-3" onClick={fetchPrompts}>Submit</button>
-          )}
-        </div>
-      </div>
 
       {showResults && (
         <div className="row">
@@ -224,7 +387,7 @@ const EloScoringPlatform = () => {
               <button
                 className="btn btn-outline-success btn-lg"
                 onClick={() => handleVote(models.model1, 'win')}
-                disabled={voted} // Disable the button after voting
+                disabled={voted}
               >
                 👈 Left
               </button>
@@ -245,7 +408,7 @@ const EloScoringPlatform = () => {
               <button
                 className="btn btn-outline-success btn-lg"
                 onClick={() => handleVote(models.model2, 'win')}
-                disabled={voted} // Disable the button after voting
+                disabled={voted} 
               >
                 Right 👉
               </button>
@@ -253,6 +416,7 @@ const EloScoringPlatform = () => {
           </div>
         </div>
       )}
+   <Footer />
     </div>
   );
 };
