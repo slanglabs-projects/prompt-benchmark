@@ -100,7 +100,6 @@ async def get_total_games():
         return total_games_doc.to_dict().get('total_games', 0)
     return 0
 
-# New API call for handling OpenAI responses using AsyncOpenAI
 @router.post("/openai_response")
 async def openai_response(request: Request):
     data = json.loads(await request.body())
@@ -112,7 +111,6 @@ async def openai_response(request: Request):
     )
     return {"response": response.choices[0].message.content}
 
-# New API call for handling Conva AI responses using AsyncConvaAI
 @router.post("/conva_response")
 async def conva_response(request: Request):
     data = json.loads(await request.body())
