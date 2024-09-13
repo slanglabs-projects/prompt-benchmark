@@ -8,7 +8,6 @@ COPY ./requirements.txt ${APP_HOME}/requirements.txt
 RUN pip3 install -r requirements.txt
 
 COPY . .
-RUN chmod +x ${APP_HOME}/start.sh
 
 EXPOSE 8080
 EXPOSE 80
