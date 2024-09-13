@@ -14,4 +14,4 @@ EXPOSE 8080
 EXPOSE 80
 
 ENTRYPOINT ["/bin/bash", "-c"]
-CMD ["${APP_HOME}/start.sh"]
+CMD ["python3", "${APP_HOME}/start.py"]
