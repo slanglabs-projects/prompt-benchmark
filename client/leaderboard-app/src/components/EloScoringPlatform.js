@@ -161,9 +161,19 @@ const EloScoringPlatform = () => {
 
   const handleVote = async (modelName, result) => {
     try {
-      setWinner(modelName);
+      let finalWinner = ''; 
+  
+      if (result === 'win') {
+        finalWinner = modelName;
+      } else if (result === 'both_good') {
+        finalWinner = 'Both Good';
+      } else if (result === 'both_bad') {
+        finalWinner = 'Both Bad';
+      }
+  
+      setWinner(finalWinner); 
       setVoted(true);
-      
+  
       mixpanel.track('Model Voted', {
         gameNumber,
         votedFor: modelName,
@@ -188,13 +198,15 @@ const EloScoringPlatform = () => {
       await fetchGameNumber();
   
       setTimeout(async () => {
-        await handleAddResponse();
+        await handleAddResponse(finalWinner); 
         resetSession();
       }, 1000);
     } catch (error) {
       console.error('Error updating ELO:', error);
     }
   };
+  
+  
   
   const fetchGameNumber = async () => {
     try {
@@ -205,7 +217,7 @@ const EloScoringPlatform = () => {
     }
   };
 
-  const handleAddResponse = async () => {
+  const handleAddResponse = async (finalWinner) => {
     try {
       await axios.post(`${API_BASE_URL}/add_response`, {
         game_no: gameNumber + 1,
@@ -215,12 +227,12 @@ const EloScoringPlatform = () => {
         model_b: models.model2,
         response_a: responses.responseA,
         response_b: responses.responseB,
-        winner_model: winner,
+        winner_model: finalWinner, 
       });
     } catch (error) {
       console.error('Error adding response:', error);
     }
-  };
+  };  
 
   const resetSession = () => {
     setUserInput('');
