@@ -107,7 +107,8 @@ async def openai_response(request: Request):
     response = await openai_client.chat.completions.create(
         model=data['model'],
         messages=[{"role": "user", "content": data['prompt']}],
-        max_tokens=512
+        max_tokens=512,
+        response_format = {"type": "json_object"}
     )
     return {"response": response.choices[0].message.content}
 
