@@ -31,7 +31,6 @@ const Leaderboard = () => {
 
   return (
     <div className="container mt-5">
-      <h1 className="text-center mb-4">ELO Scoring Leaderboard</h1>
       <h1 className="text-center mb-4">Leaderboard</h1>
       <div className="table-responsive">
         <table className="table table-dark table-striped table-hover table-bordered align-middle rounded-table">
