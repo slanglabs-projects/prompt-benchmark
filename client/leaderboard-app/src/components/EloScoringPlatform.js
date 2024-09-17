@@ -197,16 +197,11 @@ const EloScoringPlatform = () => {
   
       await fetchGameNumber();
   
-      setTimeout(async () => {
-        await handleAddResponse(finalWinner); 
-        resetSession();
-      }, 1000);
+      await handleAddResponse(finalWinner);
     } catch (error) {
       console.error('Error updating ELO:', error);
     }
   };
-  
-  
   
   const fetchGameNumber = async () => {
     try {
@@ -233,6 +228,11 @@ const EloScoringPlatform = () => {
       console.error('Error adding response:', error);
     }
   };  
+
+  const handleReset = () => {
+    resetSession();
+    mixpanel.track('Reset Button Clicked');
+  };
 
   const resetSession = () => {
     setUserInput('');
@@ -392,35 +392,31 @@ const EloScoringPlatform = () => {
       </div>
 
 
-      {showResults && (
+      {showResults && !voted && (
         <div className="row">
           <div className="col text-center">
             <div className="btn-group" role="group" aria-label="Vote options">
               <button
                 className="btn btn-outline-success btn-lg"
                 onClick={() => handleVote(models.model1, 'win')}
-                disabled={voted}
               >
                 👈 Left
               </button>
               <button
                 className="btn btn-outline-warning btn-lg"
                 onClick={() => handleVote('both_good', 'both_good')}
-                disabled={voted} 
               >
                 Both Good
               </button>
               <button
                 className="btn btn-outline-danger btn-lg"
                 onClick={() => handleVote('both_bad', 'both_bad')}
-                disabled={voted} 
               >
                 Both Bad
               </button>
               <button
                 className="btn btn-outline-success btn-lg"
                 onClick={() => handleVote(models.model2, 'win')}
-                disabled={voted} 
               >
                 Right 👉
               </button>
@@ -428,7 +424,21 @@ const EloScoringPlatform = () => {
           </div>
         </div>
       )}
-   <Footer />
+
+      {voted && (
+        <div className="row mt-4">
+          <div className="col text-center">
+            <button
+              className="btn btn-secondary btn-lg"
+              onClick={handleReset}
+            >
+              Reset
+            </button>
+          </div>
+        </div>
+      )}
+
+      <Footer />
     </div>
   );
 };
