@@ -72,7 +72,7 @@ const EloScoringPlatform = () => {
   useEffect(() => {
     const fetchUseCases = async () => {
       try {
-        const response = await axios.get(`${API_BASE_URL}/fetch_use_cases`);
+        const response = await axios.get(`${API_BASE_URL}/use_cases`);
         setOptions(response.data);
         if (response.data.length > 0) setSelectedOption();
       } catch (error) {
@@ -189,7 +189,7 @@ const EloScoringPlatform = () => {
         bothBadVotes: result === 'both_bad' ? 1 : 0,
       });
   
-      await axios.post(`${API_BASE_URL}/update_elo`, {
+      await axios.put(`${API_BASE_URL}/elo`, {
         model_a: models.model1,
         model_b: models.model2,
         result: result,
@@ -214,7 +214,7 @@ const EloScoringPlatform = () => {
 
   const handleAddResponse = async (finalWinner) => {
     try {
-      await axios.post(`${API_BASE_URL}/add_response`, {
+      await axios.post(`${API_BASE_URL}/response`, {
         game_no: gameNumber + 1,
         query: userInput,
         use_case: selectedOption,
