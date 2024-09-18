@@ -25,8 +25,8 @@ const AdminPanel = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const modelsResponse = await axios.get(`${API_BASE_URL}/fetch_models`);
-        const useCasesResponse = await axios.get(`${API_BASE_URL}/fetch_use_cases`);
+        const modelsResponse = await axios.get(`${API_BASE_URL}/models`);
+        const useCasesResponse = await axios.get(`${API_BASE_URL}/use_cases`);
         setModels(modelsResponse.data);
         setUseCases(useCasesResponse.data);
       } catch (error) {
@@ -44,7 +44,7 @@ const AdminPanel = () => {
 
   const handleAddPrompt = async () => {
     try {
-      const response = await axios.post(`${API_BASE_URL}/add_prompt`, {
+      const response = await axios.post(`${API_BASE_URL}/prompt`, {
         origin: selectedModel,
         use_case: selectedUseCase,
         prompt: promptText,
@@ -57,7 +57,7 @@ const AdminPanel = () => {
 
   const handleAddUseCase = async () => {
     try {
-      const response = await axios.post(`${API_BASE_URL}/add_use_case`, { use_case: newUseCase });
+      const response = await axios.post(`${API_BASE_URL}/use_case`, { use_case: newUseCase });
       alert(response.data.message);
     } catch (error) {
       console.error("Error adding use case:", error);
@@ -66,7 +66,7 @@ const AdminPanel = () => {
 
   const handleAddAssistant = async () => {
     try {
-      const response = await axios.post(`${API_BASE_URL}/add_assistant`, assistantData);
+      const response = await axios.post(`${API_BASE_URL}/assistant`, assistantData);
       alert(response.data.message);
     } catch (error) {
       console.error("Error adding assistant:", error);
@@ -75,16 +75,20 @@ const AdminPanel = () => {
 
   const fetchPrompts = async () => {
     try {
-      const response = await axios.get(`${API_BASE_URL}/view_prompts/${selectedModel}/${selectedUseCase}`);
+      const response = await axios.get(`${API_BASE_URL}/prompts/${selectedUseCase}`, {
+        params: {
+          model: selectedModel,
+        },
+      });
       setPrompts(response.data);
     } catch (error) {
       console.error("Error fetching prompts:", error);
     }
-  };
+  };  
 
   const fetchAssistants = async () => {
     try {
-      const response = await axios.get(`${API_BASE_URL}/view_assistants`);
+      const response = await axios.get(`${API_BASE_URL}/assistants`);
       setAssistants(response.data);
     } catch (error) {
       console.error("Error fetching assistants:", error);

@@ -27,54 +27,54 @@ class Assistant(BaseModel):
 async def get_random_prompts(use_case: str):
     return firebase_client.get_random_prompts(use_case)
 
-@router.post("/add_response")
+@router.post("/response")
 async def add_response(response_data: Request):
     response_data = json.loads(await response_data.body())
     firebase_client.add_response(response_data)
     return {"message": "Response added successfully"}
 
-@router.post("/update_elo")
+@router.put("/elo")
 async def update_elo(result: Request):
     result = json.loads(await result.body())
     firebase_client.update_elo(result)
     return {"message": "ELO updated successfully"}
 
-@router.post("/increment_total_games")
+@router.put("/total_games")
 async def increment_total_games():
     game_no = firebase_client.increment_total_games()
     return {"game_no": game_no, "message": "Total games incremented successfully"}
 
-@router.get("/fetch_use_cases")
+@router.get("/use_cases")
 async def fetch_use_cases():
     return firebase_client.fetch_use_cases()
 
-@router.get("/fetch_models")
+@router.get("/models")
 async def fetch_models():
     return firebase_client.fetch_models()
 
-@router.post("/add_prompt")
+@router.post("/prompt")
 async def add_prompt(prompt: Prompt):
     firebase_client.add_or_update_prompt(prompt.model_dump())
     return {"message": "Prompt added successfully"}
 
-@router.post("/add_use_case")
+@router.post("/use_case")
 async def add_use_case(request: Request):
     use_case = json.loads(await request.body())
     firebase_client.add_or_update_use_case(use_case['use_case'])
     return {"message": "Use case added successfully"}
 
-@router.post("/add_assistant")
+@router.post("/assistant")
 async def add_assistant(assistant: Assistant):
     firebase_client.add_or_update_assistant(assistant.model_dump())
     return {"message": "Assistant added successfully"}
 
-@router.get("/view_prompts/{model}/{use_case}")
-async def view_prompts(model: str, use_case: str):
+@router.get("/prompts/{use_case}")
+async def view_prompts(use_case: str, model: str):
     prompts = firebase_client.db.collection('prompt').where('origin', '==', model).where('use_case', '==', use_case).stream()
     prompts_list = [p.to_dict() for p in prompts]
     return sorted(prompts_list, key=lambda x: x['version'], reverse=True)
 
-@router.get("/view_assistants")
+@router.get("/assistants")
 async def view_assistants():
     assistants = firebase_client.db.collection('assistants').stream()
     return [a.to_dict() for a in assistants]

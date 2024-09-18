@@ -5,37 +5,37 @@ import axios from 'axios';
 const API_BASE_URL = "http://0.0.0.0:8080";
 
 export const fetchModels = async () => {
-  const response = await axios.get(`${API_BASE_URL}/fetch_models`);
+  const response = await axios.get(`${API_BASE_URL}/models`);
   return response.data;
 };
 
 export const fetchUseCases = async () => {
-  const response = await axios.get(`${API_BASE_URL}/fetch_use_cases`);
+  const response = await axios.get(`${API_BASE_URL}/use_cases`);
   return response.data;
 };
 
 export const addPrompt = async (data) => {
-  const response = await axios.post(`${API_BASE_URL}/add_prompts`, data);
+  const response = await axios.post(`${API_BASE_URL}/prompts`, data);
   return response.data;
 };
 
 export const addUseCase = async (data) => {
-  const response = await axios.post(`${API_BASE_URL}/add_use_case`, data);
+  const response = await axios.post(`${API_BASE_URL}/use_case`, data);
   return response.data;
 };
 
 export const addAssistant = async (data) => {
-  const response = await axios.post(`${API_BASE_URL}/add_assistant`, data);
+  const response = await axios.post(`${API_BASE_URL}/assistant`, data);
   return response.data;
 };
 
 export const fetchPrompts = async (model, useCase) => {
-  const response = await axios.get(`${API_BASE_URL}/view_prompts/${model}/${useCase}`);
+  const response = await axios.get(`${API_BASE_URL}/prompts/${model}/${useCase}`);
   return response.data;
 };
 
 export const fetchAssistants = async () => {
-  const response = await axios.get(`${API_BASE_URL}/view_assistants`);
+  const response = await axios.get(`${API_BASE_URL}/assistants`);
   return response.data;
 };
 
@@ -50,7 +50,7 @@ export const fetchTotalGames = async () => {
 };
 
 export const updateElo = async (data) => {
-  const response = await axios.post(`${API_BASE_URL}/update_elo`, data);
+  const response = await axios.put(`${API_BASE_URL}/elo`, data);
   return response.data;
 };
 
