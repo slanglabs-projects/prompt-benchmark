@@ -6,3 +6,4 @@ nest_asyncio
 openai
 conva-ai
 python-dotenv
+numpy
