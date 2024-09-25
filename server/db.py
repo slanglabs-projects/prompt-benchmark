@@ -5,7 +5,7 @@ import numpy as np
 
 class FirebaseClient:
     def __init__(self):
-        FIREBASE_CRED_PATH = os.environ("FIREBASE_CRED_PATH")
+        FIREBASE_CRED_PATH = os.getenv("FIREBASE_CRED_PATH")
         cred = credentials.Certificate(FIREBASE_CRED_PATH)
         firebase_admin.initialize_app(cred)
         self.db = firestore.client()
