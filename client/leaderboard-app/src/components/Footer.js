@@ -12,7 +12,7 @@ const Footer = () => (
         rel="noopener noreferrer"
         className="text-white"
       >
-        Source Code : <FaGithub size={24} />
+        Source Code: <FaGithub size={24} />
       </a>
     </p>
   </footer>

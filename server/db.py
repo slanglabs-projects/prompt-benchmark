@@ -1,16 +1,12 @@
 import os
-from dotenv import load_dotenv
-import json
 import firebase_admin
 from firebase_admin import credentials, firestore
 import numpy as np
 
 class FirebaseClient:
     def __init__(self):
-        load_dotenv()
-        firebase_creds_json = os.getenv('FIREBASEKEY_CREDENTIALS')
-        firebase_creds = json.loads(firebase_creds_json)
-        cred = credentials.Certificate(firebase_creds)
+        FIREBASE_CRED_PATH = os.environ("FIREBASE_CRED_PATH")
+        cred = credentials.Certificate(FIREBASE_CRED_PATH)
         firebase_admin.initialize_app(cred)
         self.db = firestore.client()
 

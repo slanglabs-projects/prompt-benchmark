@@ -1,11 +1,8 @@
 fastapi
 uvicorn
 firebase-admin
-streamlit
 aiohttp
 nest_asyncio
 openai
-panda
 conva-ai
 python-dotenv
-streamlit-option-menu
