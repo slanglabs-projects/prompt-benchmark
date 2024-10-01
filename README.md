@@ -8,9 +8,10 @@ Follow these steps to set up and run the project:
    git clone git@github.com:slanglabs-projects/prompt-benchmark.git
    ```
 
-2. Install Node.js (if not already installed):
+2. Install the requirements and Node.js (if not already installed):
 
    ```
+   pip install -r requirements.txt
    brew install node
    ```
 
@@ -28,7 +29,7 @@ Follow these steps to set up and run the project:
    ```
       OPENAI_API_KEY = " " 
 
-      FIREBASEKEY_CREDENTIALS = '<Make a new python project on firestore and get the JSON credentials from configuration and paste it here.>'
+      FIREBASEKEY_CREDENTIALS = '<Make a new python project on firestore and get the JSON credentials from configuration and paste the path here.>'
 
       API_BASE_URL = "http://0.0.0.0:8080"
    ```
@@ -65,4 +66,7 @@ Follow these steps to set up and run the project:
    npm start
    ```
 
-The project should now be running. Open your browser and navigate to the local server address (typically `http://localhost:3000`) to view the application.
+The project should now be running. Open your browser and navigate to the local server address (typically `http://localhost:3000`) to view the application. <br>
+
+Any pull requests and improvements are welcome <br>
+any queries mail to : revanth@slanglabs.in / revanthreddy0403@gmail.com <br>
