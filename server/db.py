@@ -195,7 +195,7 @@ class FirebaseClient:
         else:
             new_version = 1
 
-        assistant_data['origin'] = "Conva Assistant"
+        assistant_data['origin'] = "Conva AI"
         assistant_data['version'] = new_version
         self.db.collection('assistants').add(assistant_data)
 
