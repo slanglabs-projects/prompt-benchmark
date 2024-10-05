@@ -161,45 +161,58 @@ const EloScoringPlatform = () => {
 
   const handleVote = async (modelName, result) => {
     try {
-      let finalWinner = ''; 
-  
-      if (result === 'win') {
-        finalWinner = modelName;
-      } else if (result === 'both_good') {
-        finalWinner = 'Both Good';
-      } else if (result === 'both_bad') {
-        finalWinner = 'Both Bad';
-      }
-  
-      setWinner(finalWinner); 
-      setVoted(true);
-  
-      mixpanel.track('Model Voted', {
-        gameNumber,
-        votedFor: modelName,
-        result,
-        model1: models.model1,
-        model2: models.model2,
-        responseA: responses.responseA,
-        responseB: responses.responseB,
-        userInput: userInput,
-        model1Votes: modelName === models.model1 && result === 'win' ? 1 : 0,
-        model2Votes: modelName === models.model2 && result === 'win' ? 1 : 0,
-        bothGoodVotes: result === 'both_good' ? 1 : 0,
-        bothBadVotes: result === 'both_bad' ? 1 : 0,
-      });
-  
-      await axios.put(`${API_BASE_URL}/elo`, {
-        model_a: models.model1,
-        model_b: models.model2,
-        result: result,
-      });
-  
-      await fetchGameNumber();
-  
-      await handleAddResponse(finalWinner);
+        let finalWinner = ''; 
+
+        if (result === 'win') {
+            finalWinner = modelName;
+        } else if (result === 'both_good') {
+            finalWinner = 'Both Good';
+        } else if (result === 'both_bad') {
+            finalWinner = 'Both Bad';
+        }
+
+        setWinner(finalWinner); 
+        setVoted(true);
+        
+        // Track voting events properly
+        mixpanel.track('Model Voted', {
+            gameNumber,
+            votedFor: modelName,
+            result,
+            model1: models.model1,
+            model2: models.model2,
+            responseA: responses.responseA,
+            responseB: responses.responseB,
+            userInput: userInput,
+        });
+        
+        // Here, you need to decide the result for Elo calculation
+        let eloResult;
+        if (result === 'win') {
+            eloResult = {
+                model_a: modelName, // the winning model
+                model_b: modelName === models.model1 ? models.model2 : models.model1, // the losing model
+                result: 'win', // this should remain win as you are treating the voted model as the winner
+            };
+        } else if (result === 'both_good') {
+            eloResult = {
+                model_a: models.model1,
+                model_b: models.model2,
+                result: 'both_good',
+            };
+        } else if (result === 'both_bad') {
+            eloResult = {
+                model_a: models.model1,
+                model_b: models.model2,
+                result: 'both_bad',
+            };
+        }
+        
+        await axios.put(`${API_BASE_URL}/elo`, eloResult); // Send the correct data for scoring
+        await fetchGameNumber();
+        await handleAddResponse(finalWinner);
     } catch (error) {
-      console.error('Error updating ELO:', error);
+        console.error('Error updating ELO:', error);
     }
   };
   
@@ -416,7 +429,7 @@ const EloScoringPlatform = () => {
               </button>
               <button
                 className="btn btn-outline-success btn-lg"
-                onClick={() => handleVote(models.model2, 'loss')}
+                onClick={() => handleVote(models.model2, 'win')}
               >
                 Right 👉
               </button>
