@@ -416,7 +416,7 @@ const EloScoringPlatform = () => {
               </button>
               <button
                 className="btn btn-outline-success btn-lg"
-                onClick={() => handleVote(models.model2, 'win')}
+                onClick={() => handleVote(models.model2, 'loss')}
               >
                 Right 👉
               </button>
