@@ -8,6 +8,11 @@
   justify-content: center; 
 }
 
+.no-underline {
+  text-decoration: none; 
+}
+
+
 @media (max-width: 768px) {
   .navbar-title {
     font-size: 20px; 
