@@ -12,7 +12,7 @@ const Navbar = () => {
   useEffect(() => {
     const showAdminFromLocalStorage = localStorage.getItem('ShowAdmin');
     setShowAdmin(showAdminFromLocalStorage === 'true');
-  }, []); 
+  }, []);
   
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -21,7 +21,9 @@ const Navbar = () => {
           <img src={logo} alt="Logo" style={{ height: '30px', width: 'auto', marginRight: '10px' }} />
         </Link>
         <div className="mx-auto">
-          <span className="navbar-title">Agent Arena</span>
+          <Link to="/" className="navbar-title no-underline">
+            Agent Arena
+          </Link>
         </div>
         <button 
           className="navbar-toggler" 
