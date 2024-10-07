@@ -46,7 +46,7 @@ const Leaderboard = () => {
             {leaderboard.map((entry, index) => (
               <tr key={index}>
                 <td>{index + 1}</td> 
-                <td>{entry.model_name}</td>
+                <td>{entry.model_name==='Conva Assistant'? 'Conva.AI': entry.model_name}</td>
                 <td>{entry.score}</td>
                 <td>{entry.no_of_games}</td>
               </tr>

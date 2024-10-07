@@ -6,6 +6,7 @@ import Navbar from './components/Navbar';
 import AdminPanel from './components/AdminPanel';
 import EloScoringPlatform from './components/EloScoringPlatform';
 import Leaderboard from './components/Leaderboard';
+import Arena from './components/Arena';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Route path="/" element={<EloScoringPlatform />} />
           <Route path="/leaderboard" element={<Leaderboard />} />
           <Route path="/admin" element={<AdminPanel />} />
+          <Route path="/arena" element={<Arena />} />
         </Routes>
       </div>
     </Router>
