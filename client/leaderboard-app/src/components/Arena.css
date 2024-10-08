@@ -317,7 +317,7 @@ body {
   
     .query {
       flex-direction: column; 
-      margin-bottom: 20px; /* Space between query elements */
+      margin-bottom: 20px; 
     }
     
     .query input {
@@ -328,18 +328,18 @@ body {
     .dropdown select {
       max-width: 250px; 
       width: 100%;
-      margin-bottom: 20px; /* Space below dropdown */
+      margin-bottom: 20px; 
     }
   
     .button-vote {
       font-size: 1rem;
       padding: 8px 15px;
-      margin-bottom: 100px; /* Space below buttons */
+      margin-bottom: 100px; 
     }
   
     .card {
       padding: 15px;
-      margin-bottom: 20px; /* Space between cards */
+      margin-bottom: 20px;
     }
   
     .card textarea {
