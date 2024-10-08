@@ -4,15 +4,15 @@ body {
   background: linear-gradient(to bottom, black , #126196);
   color: #6C757D;
   font-family: Arial, sans-serif;
-  padding-left: 130px;
-  padding-right: 130px;
+  padding-left: 10%; /* Change to percentage for fluidity */
+  padding-right: 10%; /* Change to percentage for fluidity */
 }
 
 .list {
   width: 100%; 
   background-color: rgba(0, 0, 0, 0.25);
   box-shadow: none;
-  padding: 1rem 2rem;
+  padding: 1rem 2rem; /* Consider changing to percentages for responsiveness */
   z-index: 1000; 
   border-radius: 10px; 
   transition: background-color 0.3s ease;
@@ -20,10 +20,8 @@ body {
   font-size: large;
 }
 
-
 h2 {
   color: #01B9F1; 
-  
 }
 
 .intro {
@@ -31,11 +29,54 @@ h2 {
   text-align: center;
   font-size: x-large;
   padding-top: 30px; 
-  padding-left: 150px;
-  padding-right: 150px;
+  padding-left: 10%; /* Change to percentage for fluidity */
+  padding-right: 10%; /* Change to percentage for fluidity */
 }
 
 ol li {
   text-align: left;
   margin-bottom: 10px;
+}
+
+/* Responsive Styles */
+@media (max-width: 700px) {
+  body {
+    padding-left: 5%; /* Decrease padding on smaller screens */
+    padding-right: 5%; /* Decrease padding on smaller screens */
+
+  }
+
+  .list {
+    padding: 1rem; /* Reduce padding for smaller devices */
+  }
+
+  h2 {
+    font-size: 1.5rem; /* Adjust font size for smaller screens */
+  }
+
+  .intro {
+    font-size: large; /* Adjust font size for smaller screens */
+    padding-left: 5%; /* Decrease padding for smaller screens */
+    padding-right: 5%;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    padding-left: 10px;
+    padding-right: 10px; 
+  }
+
+  .list {
+    padding: 0.5rem; /* Reduce padding even more */
+  }
+
+  h2 {
+    font-size: 1.25rem; /* Further adjust font size */
+  }
+
+  .intro, ol {
+    font-size: medium; /* Further adjust font size */
+    padding-top: 10px; /* Adjust top padding */
+  }
 }

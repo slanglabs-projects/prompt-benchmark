@@ -325,7 +325,6 @@ const AdminPanel = () => {
 
   return (
     <div className="container mt-5">
-      <h1 className="text-center mb-4">Admin Panel</h1>
       <nav className="nav justify-content-center mb-4">
         <button
           className={`nav-link btn ${activeTab === 'AddPrompt' ? 'btn-primary' : 'btn-outline-primary'}`}
