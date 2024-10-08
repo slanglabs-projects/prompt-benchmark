@@ -3,7 +3,7 @@ import Footer from './Footer';
 import './EloScoringPlatform.css';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from 'react-responsive-carousel';
-import PSImage from '../assets/PS.jpeg'; 
+import PSImage from '../assets/PS.png'; 
 import TSImage from '../assets/TS.jpg'; 
 
 
