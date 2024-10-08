@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js'; 
 import './Navbar.css';
-import logo from '../assets/logo.svg'; 
+import logo from '../assets/logo.png'; 
 
 const Navbar = () => {
   const [showAdmin, setShowAdmin] = useState(false);
