@@ -4,6 +4,8 @@ import mixpanel from "mixpanel-browser";
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { FaCopy, FaCheck } from 'react-icons/fa';
 import Footer from './Footer';
+import './Arena.css'
+import downArrow from '../assets/downArrow.svg';
 
 mixpanel.init(process.env.REACT_APP_MIXPANEL_TOKEN, {
   debug: true,
@@ -259,36 +261,35 @@ const Arena = () => {
   };
 
   return (
-    <div className="container-fluid py-4" style={{ backgroundColor: '#2c2f33', color: '#ffffff', height: '150vh', width:"100%"}}>
-    <div className="text-center mb-4">
-    <h1 className="text-center mb-4">Arena</h1>
-    </div>
+    <div>
 
     <div className="row mb-4">
       <div className="col text-center">
         <div className="d-flex justify-content-center align-items-center">
-          <div className="me-2">
-            <select
-              autoFocus
-              required
-              className="form-select form-select-lg bg-light text-black"
-              value={selectedOption}
-              onChange={handleOptionChange}
-              style={{ maxWidth: '200px' }}
+          <div className="dropdown me-2">
+          <select
+            autoFocus
+            required
+            value={selectedOption}
+            onChange={handleOptionChange}
+            style={{ backgroundImage: `url(${downArrow})`, backgroundRepeat: 'no-repeat', backgroundPosition: 'calc(100% - 15px) center', backgroundSize: '15px' }}
             >
-              <option value="" disabled>Pick a category</option>
-              {options.map((option) => (
+            <option value="" disabled>
+                Category
+            </option>
+            {options.map((option) => (
                 <option key={option} value={option}>
-                  {displayNameMapping[option] || option}
+                {displayNameMapping[option] || option}
                 </option>
-              ))}
+            ))}
             </select>
+
           </div>
-          <div className="me-2" style={{ maxWidth: '800px', flex: '1' }}>
+          <div className="query me-2" style={{ maxWidth: '800px', flex: '1' }}>
             <input
-              placeholder="Enter your query"
+              placeholder="What’s your query?"
               type="text"
-              className="form-control form-control-lg bg-light text-black"
+              className=""
               value={userInput}
               onChange={(e) => setUserInput(e.target.value)}
               onKeyDown={(e) => {
@@ -304,7 +305,7 @@ const Arena = () => {
           <div>
             {!submitClicked && (
               <button
-                className="btn btn-primary btn-lg"
+                className="button btn btn-primary btn-lg"
                 onClick={handleSubmit}
               >
                 Submit
@@ -329,7 +330,7 @@ const Arena = () => {
 
       <div className="row">
         <div className="col-md-6 mb-3">
-          <div className="card bg-dark text-white h-100">
+          <div className="card h-100">
             <div className="card-body">
             <div className="d-flex justify-content-between align-items-center">
               <h5 className="card-title mb-0">Framework A</h5>
@@ -341,7 +342,6 @@ const Arena = () => {
             </div>
             <br/>
               <textarea
-                className="form-control bg-secondary text-white"
                 value={responses.responseA}
                 readOnly
                 rows="15"
@@ -352,7 +352,7 @@ const Arena = () => {
           </div>
         </div>
         <div className="col-md-6 mb-3">
-          <div className="card bg-dark text-white h-100">
+          <div className="card h-100">
             <div className="card-body">
             <div className="d-flex justify-content-between align-items-center">
               <h5 className="card-title mb-0">Framework B</h5>
@@ -364,7 +364,6 @@ const Arena = () => {
             </div>
             <br/>              
             <textarea
-                className="form-control bg-secondary text-white"
                 value={responses.responseB}
                 readOnly
                 rows="15"
@@ -376,31 +375,32 @@ const Arena = () => {
         </div>
       </div>
 
+    <br/>
 
       {showResults && !voted && (
         <div className="row">
           <div className="col text-center">
             <div className="btn-group" role="group" aria-label="Vote options">
               <button
-                className="btn btn-outline-success btn-lg"
+                className="button-vote btn btn-outline-primary btn-lg"
                 onClick={() => handleVote(models.model1, 'win')}
               >
                 👈 Left
               </button>
               <button
-                className="btn btn-outline-warning btn-lg"
+                className="button-vote btn btn-outline-primary btn-lg"
                 onClick={() => handleVote('both_good', 'both_good')}
               >
                 Both Good
               </button>
               <button
-                className="btn btn-outline-danger btn-lg"
+                className="button-vote btn btn-outline-primary btn-lg"
                 onClick={() => handleVote('both_bad', 'both_bad')}
               >
                 Both Bad
               </button>
               <button
-                className="btn btn-outline-success btn-lg"
+                className="button-vote btn btn-outline-primary btn-lg"
                 onClick={() => handleVote(models.model2, 'win')}
               >
                 Right 👉
@@ -414,7 +414,7 @@ const Arena = () => {
         <div className="row mt-4">
           <div className="col text-center">
             <button
-              className="btn btn-secondary btn-lg"
+              className="button btn btn-secondary btn-lg"
               onClick={handleReset}
             >
               Reset
@@ -422,8 +422,7 @@ const Arena = () => {
           </div>
         </div>
       )}
-
-      <Footer />
+    <Footer />
     </div>
   );
 };

@@ -5,7 +5,8 @@ import './Leaderboard.css';
 import mixpanel from "mixpanel-browser";
 import Footer from './Footer';
 
-const API_BASE_URL =  process.env.REACT_APP_API_BASE_URL;
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
 mixpanel.init(process.env.REACT_APP_MIXPANEL_TOKEN, {
   disable_all_events: false,
   debug: true,
@@ -15,6 +16,7 @@ mixpanel.init(process.env.REACT_APP_MIXPANEL_TOKEN, {
 
 const Leaderboard = () => {
   const [leaderboard, setLeaderboard] = useState([]);
+
   useEffect(() => {
     const fetchLeaderboard = async () => {
       try {
@@ -30,10 +32,9 @@ const Leaderboard = () => {
   }, []);
 
   return (
-    <div className="container mt-5">
-      <h1 className="text-center mb-4">Leaderboard</h1>
+    <div className="leaderboard-container">
       <div className="table-responsive">
-        <table className="table table-dark table-striped table-hover table-bordered align-middle rounded-table">
+        <table className="table table-bordered leaderboard-table">
           <thead>
             <tr>
               <th scope="col">Rank</th> 
@@ -46,7 +47,7 @@ const Leaderboard = () => {
             {leaderboard.map((entry, index) => (
               <tr key={index}>
                 <td>{index + 1}</td> 
-                <td>{entry.model_name==='Conva Assistant'? 'Conva.AI': entry.model_name}</td>
+                <td>{entry.model_name === 'Conva Assistant' ? 'Conva.AI' : entry.model_name}</td>
                 <td>{entry.score}</td>
                 <td>{entry.no_of_games}</td>
               </tr>
@@ -58,4 +59,5 @@ const Leaderboard = () => {
     </div>
   );
 };
+
 export default Leaderboard;

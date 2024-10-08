@@ -3,8 +3,8 @@ import { FaGithub } from 'react-icons/fa';
 import './Footer.css';
 
 const Footer = () => (
-  <footer className="footer bg-dark text-white py-2 text-center">
-    <p className="footer-text">
+  <footer className="footer py-2 text-center">
+    <p className="text-white">
       &copy; {new Date().getFullYear()} Slang Labs. All Rights Reserved.
     </p>
     <p className="footer-text">
@@ -14,7 +14,7 @@ const Footer = () => (
         rel="noopener noreferrer"
         className="text-white"
       >
-        Source Code: <FaGithub size={24} />
+        Source Code: <FaGithub size={22} />
       </a>
     </p>
   </footer>

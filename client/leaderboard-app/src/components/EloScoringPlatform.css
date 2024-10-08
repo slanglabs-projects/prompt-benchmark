@@ -1,14 +1,41 @@
-/* EloScoringPlatform.css */
-.elo-title {
-    font-size: 2.5rem;
-    margin-bottom: 1.5rem;
-  }
+body {
+  margin: 0;
+  padding-top: 160px; 
+  background: linear-gradient(to bottom, black , #126196);
+  color: #6C757D;
+  font-family: Arial, sans-serif;
+  padding-left: 130px;
+  padding-right: 130px;
+}
+
+.list {
+  width: 100%; 
+  background-color: rgba(0, 0, 0, 0.25);
+  box-shadow: none;
+  padding: 1rem 2rem;
+  z-index: 1000; 
+  border-radius: 10px; 
+  transition: background-color 0.3s ease;
+  color : white;
+  font-size: large;
+}
+
+
+h2 {
+  color: #01B9F1; 
   
-  textarea.form-control:disabled, textarea.form-control[readonly] {
-    background-color: #6c757d;
-    opacity: 1;
-  }
-  
-  .btn-group .btn {
-    min-width: 150px;
-  }
+}
+
+.intro {
+  color: rgba(255, 255, 255);
+  text-align: center;
+  font-size: x-large;
+  padding-top: 30px; 
+  padding-left: 150px;
+  padding-right: 150px;
+}
+
+ol li {
+  text-align: left;
+  margin-bottom: 10px;
+}
