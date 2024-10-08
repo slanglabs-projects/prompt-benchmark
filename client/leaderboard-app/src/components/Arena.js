@@ -187,12 +187,11 @@ const Arena = () => {
         userInput: userInput,
       });
 
-      // Here, you need to decide the result for Elo calculation
       let eloResult;
       if (result === 'win') {
         eloResult = {
-          model_a: modelName, // the winning model
-          model_b: modelName === models.model1 ? models.model2 : models.model1, // the losing model
+          model_a: modelName, 
+          model_b: modelName === models.model1 ? models.model2 : models.model1, 
           result: 'win',
         };
       } else if (result === 'both_good') {
@@ -209,7 +208,7 @@ const Arena = () => {
         };
       }
 
-      await axios.put(`${API_BASE_URL}/elo`, eloResult); // Send the correct data for scoring
+      await axios.put(`${API_BASE_URL}/elo`, eloResult); 
       await fetchGameNumber();
       await handleAddResponse(finalWinner);
     } catch (error) {
