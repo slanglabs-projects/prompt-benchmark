@@ -1,18 +1,40 @@
 /* Leaderboard.css */
-body {
-    background-color: #6c757d; 
+.leaderboard-container {
+  margin: 0 auto;
+  padding: 20px;
 }
-.table-bordered {
-    border: 1px solid #343a40;
-  }
-  
-  .table-bordered th,
-  .table-bordered td {
-    border: 1px solid #343a40;
-  }
-  
-  .rounded-table {
-    border-radius: 8px; 
-    overflow: hidden;
-  }
-  
+
+.leaderboard-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  border: 2px solid #01B9F1;
+  border-radius: 15px;
+  overflow: hidden;
+}
+
+.leaderboard-table th,
+.leaderboard-table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #01B9F1;
+}
+
+.leaderboard-table th {
+  background-color: transparent;
+  color: #01B9F1;
+  font-weight: bold;
+}
+
+.leaderboard-table td {
+  background-color: transparent;
+  color: white;
+}
+
+.leaderboard-table tr:last-child td {
+  border-bottom: none;
+}
+
+.table-responsive {
+  overflow-x: auto;
+}

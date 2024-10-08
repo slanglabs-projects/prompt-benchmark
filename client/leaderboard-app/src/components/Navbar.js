@@ -15,7 +15,7 @@ const Navbar = () => {
   }, []);
   
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav className="navbar navbar-expand-lg">
       <div className="container-fluid">
         <Link className="navbar-brand" to="https://www.slanglabs.in/" target="_blank">
           <img src={logo} alt="Logo" style={{ height: '30px', width: 'auto', marginRight: '10px' }} />

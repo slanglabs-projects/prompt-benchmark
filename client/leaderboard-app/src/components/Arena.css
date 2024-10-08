@@ -1,0 +1,240 @@
+/* General container setup */
+body {
+    margin: 0;
+    padding-top: 160px;
+    background: linear-gradient(to bottom, black, #126196);
+    color: #6C757D;
+    font-family: Arial, sans-serif;
+    padding-left: 130px;
+    padding-right: 130px;
+  }
+  
+  h1 {
+    font-size: 2.5rem;
+    color: #01B9F1;
+    text-align: center;
+  }
+  
+  .error-message {
+    background-color: rgba(255, 0, 0, 0.2);
+    color: red;
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+    margin-top: 10px;
+  }
+  
+  .form-select, 
+  .form-input {
+    background-color: #f8f9fa;
+    color: #000;
+    border: none;
+    padding: 10px;
+    font-size: 1rem;
+    border-radius: 5px;
+  }
+  
+  .form-select {
+    width: 200px;
+    margin-right: 10px;
+  }
+  
+  .form-input {
+    width: 800px;
+    margin-right: 10px;
+  }
+  
+  .form-button {
+    background-color: #01B9F1;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1.2rem;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .form-button:hover {
+    background-color: #0288d1;
+  }
+  
+  .spinner-border {
+    width: 3rem;
+    height: 3rem;
+    border-width: 0.3rem;
+    color: #01B9F1;
+  }
+  
+  .card {
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  }
+  
+  .card textarea {
+    background-color: rgba(1, 1, 1, 0.5);
+    color: white;
+    width: 100%;
+    height: 250px;
+    border: none;
+    padding: 10px;
+    border-radius: 10px;
+    resize: none;
+  }
+  
+  .card-title {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+  }
+  
+  .copy-btn {
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .copy-btn:hover {
+    background-color: #5a6268;
+  }
+  
+  .vote-btn {
+    background-color: #01B9F1;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1.2rem;
+    margin: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .vote-btn:hover {
+    background-color: #0288d1;
+  }
+  
+  .reset-btn {
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1.2rem;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .reset-btn:hover {
+    background-color: #5a6268;
+  }
+  
+  .button {
+    background-color: #01B9F1; 
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: large;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  }
+
+  .button-vote{
+    border: 2px solid #01B9F1;
+    color: #01B9F1;
+  }
+
+  .button-vote:hover{
+    background-color: #019FCB;
+    transform: scale(1.05); 
+    border: 2px solid #019FCB;
+  }
+
+  .button:hover {
+    background-color: #019FCB; 
+    transform: scale(1.05);
+  }
+  
+  .button:active {
+    background-color: #017A9B; 
+    transform: scale(0.98);
+  }
+
+  .query {
+    display: flex;
+    justify-content: center;
+    margin-top: auto;
+  }
+  
+  .query input {
+    width: 100%;
+    max-width: 1200px;
+    padding: 12px 20px;
+    font-size: large;
+    color: white;
+    background-color: rgba(0, 0, 0, 0); 
+    border: 2px solid #01B9F1; 
+    border-radius: 8px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    outline: none;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  }
+  
+  .query input::placeholder {
+    color: rgba(255, 255, 255, 0.7); 
+  }
+  
+  .query input:focus {
+    border-color: #019FCB; 
+    box-shadow: 0 0 10px rgba(1, 185, 241, 0.6); 
+  }
+  
+  .query input:disabled {
+    background-color: rgba(0, 0, 0, 0.2);
+    color: #6C757D;
+    cursor: not-allowed;
+  }
+
+  .dropdown select {
+    width: 200px;
+    max-width: auto;
+    padding: 10px;
+    font-size: large;
+    color: white; 
+    background-color: rgba(0, 0, 0, 0);
+    border: 2px solid #01B9F1;
+    border-radius: 8px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    outline: none;
+    appearance: none;
+    box-shadow: none;
+    cursor: pointer;    
+  }
+  
+  .dropdown select:focus {
+    border-color: #019FCB;
+    box-shadow: 0 0 5px rgba(1, 185, 241, 0.4);
+  }
+  
+  .dropdown select option {
+    background-color: rgba(0, 0, 0, 0.8); 
+    color: white; 
+  }
+  
+  .dropdown select option[disabled] {
+    color: #6C757D; 
+  }
+  
+  .dropdown select:disabled {
+    background-color: rgba(0, 0, 0, 0.2);
+    color: #6C757D;
+    cursor: not-allowed;
+  }
+  
+
+  
+  
