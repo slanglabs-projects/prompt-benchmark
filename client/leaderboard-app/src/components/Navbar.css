@@ -5,15 +5,19 @@
   left: 50%; 
   width: 90%; 
   max-width: 1200px; 
-  transform: translate(-50%, -50%); 
   background-color: rgba(0, 0, 0, 0.25);
   box-shadow: none;
   padding: 1rem 2rem;
   z-index: 1000; 
   border-radius: 10px; 
   transition: background-color 0.3s ease;
+  transform: translateX(-50%); 
+  display: flex;
+  justify-content: space-between; 
+  align-items: center; 
 }
 
+/* Navbar Brand */
 .navbar-brand img {
   height: 40px;
   width: auto;
@@ -24,6 +28,7 @@
   transform: scale(1.1);
 }
 
+/* Title Styling */
 .navbar-title {
   font-size: 1.5rem;
   color: rgba(255, 255, 255);
@@ -37,6 +42,7 @@
   text-decoration: none;
 }
 
+/* Toggler */
 .navbar-toggler {
   border: none;
 }
@@ -45,6 +51,7 @@
   background-image: url("data:image/svg+xml;charset=UTF8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Cpath stroke='rgba%28255, 255, 255, 1%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
 }
 
+/* Navigation Links */
 .navbar-nav .nav-link {
   font-size: 1rem;
   font-weight: 500;
@@ -76,9 +83,26 @@
   text-decoration: none; 
 }
 
-@media (max-width: 768px) {
+/* Responsive hamburger menu background for 991px and below */
+@media (max-width: 991px) {
+  .navbar {
+    position: fixed;
+  }
+  .navbar-collapse {
+    background-color: black;
+    padding: 1rem;
+    border-radius: 5px;
+    width: auto; /* Change from 50% to auto for more control */
+    max-width: 200px; /* Set a more specific maximum width */
+    position: absolute; /* Position near the hamburger */
+    top: 100%; /* Position directly below the navbar */
+    right: 1rem; /* Align it with the toggler */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Add shadow for better visibility */
+    z-index: 9999; /* Ensure it's above other content */
+  }
+
   .navbar-nav {
-    text-align: center;
+    text-align: left; /* Align items to the left for a cleaner look */
     margin-top: 1rem;
   }
 
@@ -92,5 +116,20 @@
 
   .navbar {
     top: 15%;
+    padding: 0.5rem 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .navbar-collapse {
+    width: auto !important;
+    height: auto;
+    max-width: 180px; 
+    max-height: 90vh; 
+    overflow-y: auto;
+    top: 100%; 
+    left: 2rem; 
+    z-index: 9999;
+    transition: all 0.3s ease;
   }
 }

@@ -271,7 +271,7 @@ const Arena = () => {
 
     <div className="row mb-4">
       <div className="col text-center">
-        <div className="d-flex justify-content-center align-items-center">
+        <div className="query d-flex justify-content-center align-items-center">
           <div className="dropdown me-2">
           <select
             autoFocus
@@ -388,6 +388,7 @@ const Arena = () => {
           </div>
         </div>
       </div>
+      <br/>   
       {showResults && !voted && (
         <div className="row">
           <div className="col text-center">

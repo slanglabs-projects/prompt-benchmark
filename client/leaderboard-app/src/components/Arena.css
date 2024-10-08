@@ -7,6 +7,8 @@ body {
     font-family: Arial, sans-serif;
     padding-left: 130px;
     padding-right: 130px;
+    margin-bottom: 100px;
+    margin-top: 50px;
   }
   
   h1 {
@@ -142,18 +144,19 @@ body {
     transition: background-color 0.3s ease, transform 0.2s ease;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
   }
-
+  
   .button-vote{
     border: 2px solid #01B9F1;
     color: #01B9F1;
+    margin-bottom: 100px;
   }
-
+  
   .button-vote:hover{
     background-color: #019FCB;
     transform: scale(1.05); 
     border: 2px solid #019FCB;
   }
-
+  
   .button:hover {
     background-color: #019FCB; 
     transform: scale(1.05);
@@ -163,7 +166,7 @@ body {
     background-color: #017A9B; 
     transform: scale(0.98);
   }
-
+  
   .query {
     display: flex;
     justify-content: center;
@@ -198,7 +201,7 @@ body {
     color: #6C757D;
     cursor: not-allowed;
   }
-
+  
   .dropdown select {
     width: 200px;
     max-width: auto;
@@ -235,6 +238,113 @@ body {
     cursor: not-allowed;
   }
   
+  /* Responsive Styles */
+  @media (max-width: 1200px) {
+    body {
+      padding-left: 50px;
+      padding-right: 50px;
+      margin-bottom: 100px;
+    }
+  
+    .form-input {
+      width: 100%;
+    }
+  
+    .form-select {
+      width: 100%;
+    }
+  
+    .card textarea {
+      height: 400px;
+    }
 
+    .button-vote {
+        margin-bottom: 100px;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    body {
+      padding-left: 30px;
+      padding-right: 30px;
+      padding-top: 250px;
+      margin-bottom: 100px;
+    }
+  
+    h1 {
+      font-size: 2rem;
+    }
+  
+    .query {
+        flex-direction: row; 
+    }
+    
+    .query input {
+        max-width: 800px;
+    }
+    
+    .dropdown select {
+        max-width: 120px; 
+    }
+  
+    .button-vote {
+      font-size: 1rem;
+      padding: 8px 15px;
+      margin-bottom: 100px;
+    }
+  
+    .card {
+      padding: 15px;
+    }
+  
+    .card textarea {
+      height: 300px;
+    }
+  }
+  
+
+  @media (max-width: 480px) {
+    body {
+      padding-left: 20px;
+      padding-right: 20px;
+      padding-top: 250px;
+      margin-bottom: 100px;
+    }
+  
+    h1 {
+      font-size: 2rem;
+    }
+  
+    .query {
+      flex-direction: column; 
+      margin-bottom: 20px; /* Space between query elements */
+    }
+    
+    .query input {
+      max-width: 450px;
+      width: 100%;
+    }
+    
+    .dropdown select {
+      max-width: 250px; 
+      width: 100%;
+      margin-bottom: 20px; /* Space below dropdown */
+    }
+  
+    .button-vote {
+      font-size: 1rem;
+      padding: 8px 15px;
+      margin-bottom: 100px; /* Space below buttons */
+    }
+  
+    .card {
+      padding: 15px;
+      margin-bottom: 20px; /* Space between cards */
+    }
+  
+    .card textarea {
+      height: 250px;
+    }
+  }
   
   
