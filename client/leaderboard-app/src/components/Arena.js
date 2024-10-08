@@ -260,6 +260,12 @@ const Arena = () => {
     setIsInputDisabled(false);
   };
 
+  const sortedOptions = options.sort((a, b) => {
+    const nameA = displayNameMapping[a] || a;
+    const nameB = displayNameMapping[b] || b;
+    return nameA.localeCompare(nameB);
+  });
+
   return (
     <div>
 
@@ -277,7 +283,7 @@ const Arena = () => {
             <option value="" disabled>
                 Category
             </option>
-            {options.map((option) => (
+            {sortedOptions.map((option) => (
                 <option key={option} value={option}>
                 {displayNameMapping[option] || option}
                 </option>
@@ -318,6 +324,14 @@ const Arena = () => {
                 </div>
               </div>
             )}
+            {voted && (
+              <button
+                className="button btn btn-primary btn-lg"
+                onClick={handleReset}
+              >
+                Reset
+              </button>
+            )}
           </div>
         </div>
         {errorMessage && (
@@ -327,7 +341,7 @@ const Arena = () => {
         )}
       </div>
     </div>
-
+<br/>
       <div className="row">
         <div className="col-md-6 mb-3">
           <div className="card h-100">
@@ -374,9 +388,6 @@ const Arena = () => {
           </div>
         </div>
       </div>
-
-    <br/>
-
       {showResults && !voted && (
         <div className="row">
           <div className="col text-center">
@@ -406,19 +417,6 @@ const Arena = () => {
                 Right 👉
               </button>
             </div>
-          </div>
-        </div>
-      )}
-
-      {voted && (
-        <div className="row mt-4">
-          <div className="col text-center">
-            <button
-              className="button btn btn-secondary btn-lg"
-              onClick={handleReset}
-            >
-              Reset
-            </button>
           </div>
         </div>
       )}
