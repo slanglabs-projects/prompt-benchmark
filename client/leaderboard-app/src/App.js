@@ -11,7 +11,7 @@ import Arena from './components/Arena';
 function App() {
   return (
     <Router>
-      <div style={{height: "80vh", overflow: "auto"}}>
+      <div>
         <Navbar />
         <Routes>
           <Route path="/" element={<EloScoringPlatform />} />

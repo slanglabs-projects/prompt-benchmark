@@ -396,7 +396,7 @@ const Arena = () => {
                 className="button-vote btn btn-outline-primary btn-lg"
                 onClick={() => handleVote(models.model1, 'win')}
               >
-                👈 Left
+                👈 Framework A
               </button>
               <button
                 className="button-vote btn btn-outline-primary btn-lg"
@@ -414,12 +414,19 @@ const Arena = () => {
                 className="button-vote btn btn-outline-primary btn-lg"
                 onClick={() => handleVote(models.model2, 'win')}
               >
-                Right 👉
+                Framework B 👉
               </button>
             </div>
           </div>
         </div>
       )}
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
     <Footer />
     </div>
   );

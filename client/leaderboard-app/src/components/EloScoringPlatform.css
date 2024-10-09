@@ -95,3 +95,27 @@ ol li {
     padding-top: 10px; 
   }
 }
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.button {
+  background-color: #01B9F1; 
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: large;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  margin: 0 10px; /* Space between the buttons */
+}
+
+.button:hover {
+  background-color: #009dcf; /* Darker shade on hover */
+  transform: scale(1.05); /* Slightly larger on hover */
+}
